@@ -24,7 +24,7 @@
       <img src="./assets/logo.png" class="logo" />
     </div>
 
-    <PostList :demoData='demoData' :uplodeType='uplodeType' :newFileUrl='newFileUrl'/>
+    <PostList @write="newPostContent = $event" :demoData='demoData' :uplodeType='uplodeType' :newFileUrl='newFileUrl'/>
     <div v-if="uplodeType == 0">
       <button @click="more">더보기</button>
     </div>
@@ -52,7 +52,8 @@ export default {
       step: 0,
       uplodeType: 0,
       newFileUrl: '',
-      btnType: 'file'
+      btnType: 'file',
+      newPostContent: ''
     }
   },
   setup () {
@@ -95,7 +96,7 @@ export default {
         likes: 49,
         date: '오늘',
         liked: false,
-        content: '우리집 개는 화장실 물도 내림',
+        content: this.newPostContent,
         filter: 'lofi'
       }
       this.demoData.unshift(imData)

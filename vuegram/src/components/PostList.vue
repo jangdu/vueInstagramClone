@@ -6,33 +6,34 @@
       </div>
     </div>
     <div v-if="uplodeType == 1">
-      <div class="upload-image" :style="{ backgroundImage : `url(${newFileUrl})` }" ></div>
+      <div class="upload-image" :style="{backgroundImage : `url(${newFileUrl})`}" ></div>
       <div class="filters">
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
+        <FilterBox :item="item" :newFileUrl='newFileUrl' v-for="item in filterData" :key="item" ></FilterBox>
       </div>
     </div>
     <div v-if="uplodeType == 2">
       <!-- 글작성페이지 -->
       <div class="upload-image" :style="{ backgroundImage : `url(${newFileUrl})` }"></div>
       <div class="write">
-        <textarea class="write-box">write!</textarea>
+        <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea>
       </div>
     </div>
   </div>
 </template>
 <script>
 import InsPost from './InsPost.vue'
+import FilterBox from './FilterBox.vue'
+import filterData from '../assets/filterData'
+
 export default {
   components: {
-    InsPost
+    InsPost,
+    FilterBox
   },
   data () {
     return {
-      sampleData: ''
+      sampleData: '',
+      filterData
     }
   },
   setup () {},
