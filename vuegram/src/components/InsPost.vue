@@ -5,10 +5,13 @@
         <div class="profile"></div>
         <span class="profile-name">{{item.name}}</span>
       </div>
-      <div class="post-body" :style="{ backgroundImage : `url(${item.postImage})` }"></div>
+      <div class="post-body" :class='item.filter' :style="{ backgroundImage : `url(${item.postImage})` }" @dblclick="$store.commit('plusLikes', item)"></div>
       <div class="post-content">
+        <h1 v-if="item.liked==false">♡</h1>
+        <h1 class="liked-imot" v-if="item.liked==true">♡</h1>
         <p>{{item.likes}} Likes</p>
         <p><strong>{{item.name}}</strong> {{item.content}}</p>
+        <button type="button" class="btn btn-light">Light</button>
         <p class="date">{{item.date}}</p>
       </div>
     </div>
@@ -24,7 +27,8 @@ export default {
   },
   setup () {},
   created () {},
-  mounted () {},
+  mounted () {
+  },
   unmounted () {},
   methods: {},
   props: {
@@ -33,6 +37,9 @@ export default {
 }
 </script>
 <style scoped>
+.liked-imot {
+  background-color: red;
+}
 .post {
   width: 100%;
 }

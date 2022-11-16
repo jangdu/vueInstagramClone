@@ -6,14 +6,14 @@
       </div>
     </div>
     <div v-if="uplodeType == 1">
-      <div class="upload-image" :style="{backgroundImage : `url(${newFileUrl})`}" ></div>
+      <div class="upload-image" :class="mainFilter" :style="{backgroundImage : `url(${newFileUrl})`}" ></div>
       <div class="filters">
-        <FilterBox :item="item" :newFileUrl='newFileUrl' v-for="item in filterData" :key="item" ></FilterBox>
+        <FilterBox :item="item" :newFileUrl='newFileUrl' v-for="item in $store.state.filterData" :key="item" ></FilterBox>
       </div>
     </div>
     <div v-if="uplodeType == 2">
       <!-- 글작성페이지 -->
-      <div class="upload-image" :style="{ backgroundImage : `url(${newFileUrl})` }"></div>
+      <div class="upload-image" :class="mainFilter" :style="{ backgroundImage : `url(${newFileUrl})` }"></div>
       <div class="write">
         <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea>
       </div>
@@ -23,7 +23,6 @@
 <script>
 import InsPost from './InsPost.vue'
 import FilterBox from './FilterBox.vue'
-import filterData from '../assets/filterData'
 
 export default {
   components: {
@@ -33,12 +32,16 @@ export default {
   data () {
     return {
       sampleData: '',
-      filterData
+      mainFilter: ''
     }
   },
   setup () {},
   created () {},
-  mounted () {},
+  mounted () {
+    this.emitter.on('onClickFilter', (a) => {
+      this.mainFilter = a
+    })
+  },
   unmounted () {},
   methods: {},
   props: {

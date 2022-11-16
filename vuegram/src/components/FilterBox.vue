@@ -1,20 +1,23 @@
 <template>
-    <div :class="item" class="filter-item" :style="{backgroundImage : `url(${newFileUrl})`}"></div>
+    <div @click="onClickFilter" :class="item" class="filter-item" :style="{backgroundImage : `url(${newFileUrl})`}"></div>
+
 </template>
 <script>
-import filterData from '../assets/filterData'
 export default {
   components: {},
   data () {
     return {
-      filterData
     }
   },
   setup () {},
   created () {},
   mounted () {},
   unmounted () {},
-  methods: {},
+  methods: {
+    onClickFilter () {
+      this.emitter.emit('onClickFilter', this.item)
+    }
+  },
   props: {
     newFileUrl: String,
     item: String

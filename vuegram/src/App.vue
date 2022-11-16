@@ -24,7 +24,7 @@
       <img src="./assets/logo.png" class="logo" />
     </div>
 
-    <PostList @write="newPostContent = $event" :demoData='demoData' :uplodeType='uplodeType' :newFileUrl='newFileUrl'/>
+    <PostList @write="newPostContent = $event" :demoData='$store.state.mainData' :uplodeType='uplodeType' :newFileUrl='newFileUrl'/>
     <div v-if="uplodeType == 0">
       <button @click="more">더보기</button>
     </div>
@@ -38,7 +38,6 @@
 </template>
 <script>
 import PostList from './components/PostList.vue'
-import demoData from './assets/demoData'
 import axios from 'axios'
 export default {
   components: {
@@ -47,19 +46,23 @@ export default {
   data () {
     return {
       sampleData: '',
-      demoData: demoData,
       number: 0,
       step: 0,
       uplodeType: 0,
       newFileUrl: '',
       btnType: 'file',
-      newPostContent: ''
+      newPostContent: '',
+      newFileFilter: ''
     }
   },
   setup () {
   },
   created () {},
-  mounted () {},
+  mounted () {
+    this.emitter.on('onClickFilter', (a) => {
+      this.newFileFilter = a
+    })
+  },
   unmounted () {},
   methods: {
     // axios를 사용한 get, post 요청
@@ -67,7 +70,7 @@ export default {
       axios.get(`https://codingapple1.github.io/vue/more${this.number}.json`)
         .then((결과) => {
           console.log(결과)
-          this.demoData.push(결과.data)
+          this.$store.state.mainData.push(결과.data)
           this.number += 1
         })
     },
@@ -93,13 +96,13 @@ export default {
         name: '두혁',
         userImage: 'https://placeimg.com/100/100/animals',
         postImage: this.newFileUrl,
-        likes: 49,
+        likes: 0,
         date: '오늘',
         liked: false,
         content: this.newPostContent,
-        filter: 'lofi'
+        filter: this.newFileFilter
       }
-      this.demoData.unshift(imData)
+      this.$store.state.mainData.unshift(imData)
       this.uplodeType = 0
     }
   }
